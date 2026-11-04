@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Five questions on human progress. Guess first, then see the data. Most people score worse than chance.">
+<meta property="og:title" content="The world is better than you think">
+<meta property="og:description" content="Five sourced questions. Most people score worse than chance.">
+<style>body{margin:0}</style>
+<title>Better Than You Think</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: single column of five guess-then-reveal cards, a score panel, a share box. */
+:root {
+  --ground: #f5f8f7;
+  --card: #ffffff;
+  --ink: #0f1f24;
+  --soft: #55666b;
+  --line: #d3dedb;
+  --rise: #0a7a58;
+  --rise-wash: #dcf1e9;
+  --miss: #b4441f;
+  --miss-wash: #f8e2d9;
+  --then: #9aa9ad;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c1517; --card: #132024; --ink: #e5efec; --soft: #9db0ad; --line: #26383c;
+    --rise: #4fd1a1; --rise-wash: #12352b; --miss: #f08a63; --miss-wash: #3a1e14; --then: #5f7376;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0c1517; --card: #132024; --ink: #e5efec; --soft: #9db0ad; --line: #26383c;
+  --rise: #4fd1a1; --rise-wash: #12352b; --miss: #f08a63; --miss-wash: #3a1e14; --then: #5f7376;
+  color-scheme: dark;
+}
+body { background: var(--ground); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 720px; margin: 0 auto; padding-block: 44px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 28px; }
+.kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--rise); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 9vw, 72px); line-height: .98; letter-spacing: -.02em; margin: 6px 0 14px; text-wrap: balance; }
+.lede { color: var(--soft); max-width: 60ch; margin: 0; }
+.lede b { color: var(--ink); }
+
+.q { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: grid; gap: 14px; min-width: 0; }
+.qn { font-family: var(--f-mono); font-size: 12px; color: var(--soft); }
+.q h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.opts { display: grid; gap: 8px; }
+.opts button { font: inherit; text-align: left; color: var(--ink); background: transparent; border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; transition: border-color .15s, background .15s; }
+.opts button:hover:not(:disabled) { border-color: var(--rise); }
+.opts button:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
+.opts button:disabled { cursor: default; }
+.opts button.right { border-color: var(--rise); background: var(--rise-wash); font-weight: 700; }
+.opts button.wrong { border-color: var(--miss); background: var(--miss-wash); }
+
+.reveal { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+.verdict { font-weight: 700; }
+.verdict.ok { color: var(--rise); }
+.verdict.no { color: var(--miss); }
+.bars { display: grid; gap: 6px; font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.bar { display: grid; grid-template-columns: 52px 1fr 96px; align-items: center; gap: 10px; }
+.track { height: 14px; background: var(--ground); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; border-radius: 3px; background: var(--then); }
+.bar.now .fill { background: var(--rise); }
+.bar span:last-child { text-align: right; }
+.still { font-size: 15px; color: var(--soft); }
+.still b { color: var(--ink); }
+.src { font-size: 13px; color: var(--soft); }
+.src a { color: inherit; }
+
+.panel { background: var(--ink); color: var(--ground); border-radius: 10px; padding: 24px; display: grid; gap: 12px; }
+.panel h2 { font-family: var(--f-display); font-weight: 800; font-size: 30px; margin: 0; line-height: 1.1; }
+.panel p { margin: 0; max-width: 60ch; }
+.share { font-family: var(--f-mono); font-size: 13px; background: color-mix(in srgb, var(--ground) 10%, transparent); border: 1px solid color-mix(in srgb, var(--ground) 30%, transparent); border-radius: 6px; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { font: inherit; font-weight: 700; border-radius: 8px; padding: 10px 16px; cursor: pointer; border: 0; background: var(--rise); color: var(--ground); }
+.btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
+.btn:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
+footer { font-size: 13px; color: var(--soft); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Five questions &middot; about two minutes</div>
+    <h1>The world is better than you think.</h1>
+    <p class="lede">In Gapminder surveys across 14 countries, <b>only about 9% of people knew</b> that extreme poverty had almost halved in 20 years. Random guessing gets 33%. Make your guess on each question, then see the data.</p>
+  </header>
+
+  <div id="quiz" class="wrap" style="padding:0;gap:20px"></div>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <h2 id="scoreH">Answer all five to see your score.</h2>
+    <p id="scoreP">Every number on this page comes from a public source: Our World in Data, the UN, the World Bank, and IRENA. Each answer links to its source.</p>
+    <div class="share" id="shareText" hidden></div>
+    <div class="row">
+      <button class="btn" id="copyBtn" type="button" hidden>Copy to share</button>
+      <button class="btn ghost" id="showAll" type="button">Show all answers</button>
+    </div>
+  </section>
+
+  <footer>Progress is real, and it is not finished. Each answer also states what is still unsolved. Optimism that ignores those facts is not accurate either.</footer>
+</div>
+
+<script>
+const Q = [
+  { q: "Over the last 25 years, the share of people living on less than $3 a day has…",
+    opts: ["Almost doubled", "Stayed about the same", "Fallen by more than two-thirds"], a: 2,
+    bars: [["2000", 36, "36%"], ["2024", 10, "10%"]], max: 40,
+    still: "<b>About 847 million people</b> still live on less than $3 a day.",
+    src: ["Our World in Data, World Bank PIP", "https://ourworldindata.org/tracking-how-many-people-live-on-less-than-3-10-or-30-a-day"] },
+  { q: "Since 1990, the share of children who die before age 5 has…",
+    opts: ["Fallen by about 60%", "Fallen by about 10%", "Risen"], a: 0,
+    bars: [["1990", 93, "93 / 1,000"], ["2023", 37, "37 / 1,000"]], max: 100,
+    still: "<b>4.8 million children</b> still died before age 5 in 2023, and progress has slowed by 42% since 2015.",
+    src: ["UN IGME, Levels and Trends in Child Mortality 2024", "https://data.unicef.org/resources/levels-and-trends-in-child-mortality-2024/"] },
+  { q: "Average life expectancy for the whole world today is closest to…",
+    opts: ["50 years", "60 years", "73 years"], a: 2,
+    bars: [["1950", 46.5, "46.5 yrs"], ["2023", 73, "73 yrs"]], max: 80,
+    still: "<b>The gap between countries</b> is still more than 20 years.",
+    src: ["Our World in Data, UN World Population Prospects 2024", "https://ourworldindata.org/grapher/life-expectancy"] },
+  { q: "What share of adults in the world can read and write?",
+    opts: ["About 45%", "About 65%", "About 87%"], a: 2,
+    bars: [["1820", 12, "12%"], ["Today", 87, "87%"]], max: 100,
+    still: "<b>In some countries of sub-Saharan Africa,</b> fewer than 1 in 3 adults can read and write.",
+    src: ["Our World in Data, Literacy", "https://ourworldindata.org/literacy"] },
+  { q: "Since 2010, the cost of electricity from new large solar plants has…",
+    opts: ["Risen by about 20%", "Fallen by about 30%", "Fallen by about 90%"], a: 2,
+    bars: [["2010", 41.7, "41.7 ¢/kWh"], ["2024", 4.3, "4.3 ¢/kWh"]], max: 45,
+    still: "<b>Cheap power is not yet clean power everywhere.</b> Grids, storage, and financing still limit how fast it is built.",
+    src: ["IRENA, Renewable Power Generation Costs in 2024", "https://www.irena.org/Publications"] }
+];
+const answers = new Array(Q.length).fill(null);
+const quiz = document.getElementById("quiz");
+
+function render() {
+  quiz.innerHTML = "";
+  Q.forEach((item, i) => {
+    const el = document.createElement("article");
+    el.className = "q";
+    const picked = answers[i];
+    const done = picked !== null;
+    el.innerHTML = `<div class="qn">Question ${i + 1} of ${Q.length}</div><h2>${item.q}</h2>`;
+    const opts = document.createElement("div");
+    opts.className = "opts";
+    item.opts.forEach((o, j) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `q${i}o${j}`; b.textContent = o;
+      if (done) {
+        b.disabled = true;
+        if (j === item.a) b.classList.add("right");
+        else if (j === picked) b.classList.add("wrong");
+      }
+      b.addEventListener("click", () => { answers[i] = j; render(); });
+      opts.appendChild(b);
+    });
+    el.appendChild(opts);
+    if (done) {
+      const r = document.createElement("div");
+      r.className = "reveal";
+      const ok = picked === item.a, skipped = picked === -1;
+      r.innerHTML =
+        (skipped ? "" : `<div class="verdict ${ok ? "ok" : "no"}">${ok ? "Correct." : "Most people miss this one."} The answer: ${item.opts[item.a].toLowerCase()}.</div>`) +
+        `<div class="bars">${item.bars.map((b, k) =>
+          `<div class="bar ${k === 1 ? "now" : ""}"><span>${b[0]}</span><div class="track"><div class="fill" style="width:${(b[1] / item.max * 100).toFixed(1)}%"></div></div><span>${b[2]}</span></div>`).join("")}</div>` +
+        `<div class="still">Still unsolved: ${item.still}</div>` +
+        `<div class="src">Source: <a href="${item.src[1]}" target="_blank" rel="noopener">${item.src[0]}</a></div>`;
+      el.appendChild(r);
+    }
+    quiz.appendChild(el);
+  });
+  score();
+}
+
+function score() {
+  const real = answers.filter(a => a !== null && a !== -1);
+  const allDone = answers.every(a => a !== null);
+  if (!allDone || real.length < Q.length) return;
+  const n = answers.filter((a, i) => a === Q[i].a).length;
+  document.getElementById("scoreH").textContent = `You got ${n} of ${Q.length}.`;
+  document.getElementById("scoreP").textContent = n >= 4
+    ? "You see the world more accurately than most people. Pass the quiz on to someone who does not."
+    : "A random guess would expect about 1.7 correct. Most people score low because the news reports events, and slow progress is not an event.";
+  const t = document.getElementById("shareText");
+  t.textContent = `I got ${n}/5 on "Better Than You Think". Extreme poverty: 36% to 10% since 2000. Child deaths: down 60% since 1990. Solar power: 90% cheaper since 2010. Take the 2-minute quiz:`;
+  t.hidden = false;
+  document.getElementById("copyBtn").hidden = false;
+}
+
+document.getElementById("showAll").addEventListener("click", () => {
+  for (let i = 0; i < Q.length; i++) if (answers[i] === null) answers[i] = -1;
+  render();
+});
+document.getElementById("copyBtn").addEventListener("click", (e) => {
+  const t = document.getElementById("shareText");
+  const btn = e.currentTarget;
+  navigator.clipboard.writeText(t.textContent + " " + location.href.split("#")[0]).then(
+    () => { btn.textContent = "Copied"; },
+    () => { const s = getSelection(), r = document.createRange(); r.selectNodeContents(t); s.removeAllRanges(); s.addRange(r); btn.textContent = "Text selected, press copy"; }
+  );
+});
+render();
+</script>
+</body>
+</html>
