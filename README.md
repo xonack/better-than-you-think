@@ -6,7 +6,13 @@ Each answer shows the data, the source, and what is still unsolved.
 **Take it: https://better-than-you-think.vercel.app**
 
 - `site/index.html`: standalone page, no build step, no tracking. Deploy to any static host.
-- `progress-quiz.html`: the same page as an artifact source.
+- `progress-quiz.html`: the first version, kept as the artifact source.
+- `site/partners.html`: embed code for partner sites, with live results.
+- `api/r.js`, `api/stats.js`: anonymous measurement (Vercel Blob).
+
+## Measurement
+
+Each visitor is randomly asked "All things considered, do you think the world is getting better or worse?" either before the quiz (control) or after it (treatment). Only completed quizzes are stored: arm, answer, score, `?ref=` tag, language. No cookies, no IP, no personal data. The difference in the "getting better" share between arms estimates the quiz's effect. Live: https://better-than-you-think.vercel.app/api/stats
 
 ## Sources
 

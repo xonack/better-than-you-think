@@ -84,6 +84,8 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 9vw
 .btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
 .btn:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
 footer { font-size: 13px; color: var(--soft); }
+.embed header, .embed footer { display: none; }
+.embed .wrap { padding-block: 12px 16px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -142,8 +144,53 @@ const Q = [
 const answers = new Array(Q.length).fill(null);
 const quiz = document.getElementById("quiz");
 
+// Measurement: each visitor is randomly asked the outlook question either before (control)
+// or after (treatment) the quiz. The difference between arms is the quiz's effect.
+const params = new URLSearchParams(location.search);
+const REF = (params.get("ref") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 40) || "direct";
+if (params.get("embed") === "1") document.documentElement.classList.add("embed");
+const OUTLOOK = ["Getting better", "Neither better nor worse", "Getting worse"];
+let ARM = null, outlook = null, sent = false;
+try { ARM = sessionStorage.getItem("btyt-arm"); } catch (e) {}
+if (ARM !== "pre" && ARM !== "post") {
+  ARM = Math.random() < 0.5 ? "pre" : "post";
+  try { sessionStorage.setItem("btyt-arm", ARM); } catch (e) {}
+}
+
+function outlookCard() {
+  const el = document.createElement("article");
+  el.className = "q";
+  el.innerHTML = `<div class="qn">${ARM === "pre" ? "Before you start" : "One last question"}</div>
+    <h2>All things considered, do you think the world is getting better or worse?</h2>`;
+  const opts = document.createElement("div");
+  opts.className = "opts";
+  OUTLOOK.forEach((o, j) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.id = `outlook${j}`; b.textContent = o;
+    if (outlook !== null) { b.disabled = true; if (o === outlook) b.classList.add("right"); }
+    b.addEventListener("click", () => { outlook = o; render(); });
+    opts.appendChild(b);
+  });
+  el.appendChild(opts);
+  return el;
+}
+
+function send(n) {
+  if (sent || outlook === null) return;
+  sent = true;
+  fetch("/api/r", {
+    method: "POST", headers: { "content-type": "application/json" }, keepalive: true,
+    body: JSON.stringify({ arm: ARM, outlook, score: n, ref: REF, lang: document.documentElement.lang || "en" }),
+  }).catch(() => {});
+}
+
 function render() {
   quiz.innerHTML = "";
+  const revealAll = answers.some(a => a === -1);
+  if (!revealAll && ARM === "pre") {
+    quiz.appendChild(outlookCard());
+    if (outlook === null) { score(); return; }
+  }
   Q.forEach((item, i) => {
     const el = document.createElement("article");
     el.className = "q";
@@ -178,6 +225,7 @@ function render() {
     }
     quiz.appendChild(el);
   });
+  if (!revealAll && ARM === "post" && answers.every(a => a !== null)) quiz.appendChild(outlookCard());
   score();
 }
 
@@ -185,7 +233,9 @@ function score() {
   const real = answers.filter(a => a !== null && a !== -1);
   const allDone = answers.every(a => a !== null);
   if (!allDone || real.length < Q.length) return;
+  if (outlook === null) return;
   const n = answers.filter((a, i) => a === Q[i].a).length;
+  send(n);
   document.getElementById("scoreH").textContent = `You got ${n} of ${Q.length}.`;
   document.getElementById("scoreP").textContent = n >= 4
     ? "You see the world more accurately than most people. Pass the quiz on to someone who does not."
@@ -203,7 +253,7 @@ document.getElementById("showAll").addEventListener("click", () => {
 document.getElementById("copyBtn").addEventListener("click", (e) => {
   const t = document.getElementById("shareText");
   const btn = e.currentTarget;
-  navigator.clipboard.writeText(t.textContent + " " + location.href.split("#")[0]).then(
+  navigator.clipboard.writeText(t.textContent + " https://better-than-you-think.vercel.app/?ref=share").then(
     () => { btn.textContent = "Copied"; },
     () => { const s = getSelection(), r = document.createRange(); r.selectNodeContents(t); s.removeAllRanges(); s.addRange(r); btn.textContent = "Text selected, press copy"; }
   );

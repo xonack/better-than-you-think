@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embed Better Than You Think</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root { --ground:#f5f8f7; --card:#fff; --ink:#0f1f24; --soft:#55666b; --line:#d3dedb; --rise:#0a7a58;
+  --f-display:"Bricolage Grotesque","Avenir Next",sans-serif; --f-body:"Atkinson Hyperlegible",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace; }
+@media (prefers-color-scheme: dark) { :root { --ground:#0c1517; --card:#132024; --ink:#e5efec; --soft:#9db0ad; --line:#26383c; --rise:#4fd1a1; color-scheme: dark; } }
+body { margin:0; background:var(--ground); color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.55; }
+.wrap { max-width:720px; margin:0 auto; padding:40px max(16px, env(safe-area-inset-right,0px)) 64px max(16px, env(safe-area-inset-left,0px)); display:grid; gap:24px; }
+h1 { font-family:var(--f-display); font-size:clamp(32px,7vw,48px); line-height:1.05; margin:0; }
+h2 { font-family:var(--f-display); font-size:22px; margin:0; }
+p { margin:0; max-width:62ch; }
+section { display:grid; gap:10px; }
+pre { margin:0; font-family:var(--f-mono); font-size:13px; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px; overflow-x:auto; }
+.stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.stat { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; }
+.stat b { display:block; font-family:var(--f-mono); font-size:24px; font-variant-numeric:tabular-nums; }
+.stat span { font-size:13px; color:var(--soft); }
+@media (max-width:520px) { .stats { grid-template-columns:1fr; } }
+ul { margin:0; padding-left:20px; }
+a { color:var(--rise); }
+.soft { color:var(--soft); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Put the quiz on your site</h1>
+  <p>"Better Than You Think" is a two-minute quiz on five measures of human progress. Readers guess first, then see the data, the source, and what is still unsolved. It is free, MIT licensed, and sets no cookies.</p>
+
+  <section>
+    <h2>Embed code</h2>
+    <p>Replace <code>yoursite</code> with a short name, so you can see your own readers in the results below.</p>
+<pre>&lt;iframe src="https://better-than-you-think.vercel.app/?embed=1&amp;ref=yoursite"
+  title="Better Than You Think: a quiz on human progress"
+  style="width:100%;height:900px;border:0" loading="lazy"&gt;&lt;/iframe&gt;</pre>
+  </section>
+
+  <section>
+    <h2>Does it change minds? Live results</h2>
+    <p>Each reader is randomly asked "Is the world getting better or worse?" either before the quiz or after it. The difference between the two groups measures the quiz's effect. Only completed quizzes count.</p>
+    <div class="stats">
+      <div class="stat"><b id="n">–</b><span>completed quizzes</span></div>
+      <div class="stat"><b id="pre">–</b><span>say "getting better" before the quiz</span></div>
+      <div class="stat"><b id="post">–</b><span>say "getting better" after the quiz</span></div>
+    </div>
+    <p class="soft" id="note">Raw data: <a href="/api/stats">/api/stats</a>. Small samples are noisy, so read the effect only after a few hundred completions per group.</p>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul>
+      <li>World Bank Poverty and Inequality Platform, via Our World in Data</li>
+      <li>UN Inter-agency Group for Child Mortality Estimation, 2024 report</li>
+      <li>UN World Population Prospects 2024, via Our World in Data</li>
+      <li>Our World in Data, Literacy</li>
+      <li>IRENA, Renewable Power Generation Costs in 2024</li>
+    </ul>
+    <p class="soft">Code and data: <a href="https://github.com/xonack/better-than-you-think">github.com/xonack/better-than-you-think</a></p>
+  </section>
+</div>
+<script>
+const pct = v => v == null ? "–" : Math.round(v * 100) + "%";
+fetch("/api/stats").then(r => r.json()).then(s => {
+  document.getElementById("n").textContent = s.completions;
+  document.getElementById("pre").textContent = pct(s.control_asked_before_quiz.better_share);
+  document.getElementById("post").textContent = pct(s.treatment_asked_after_quiz.better_share);
+}).catch(() => { document.getElementById("note").textContent = "Live results are not available right now."; });
+</script>
+</body>
+</html>

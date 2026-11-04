@@ -3,3 +3,5 @@ optimism-ledger.html
 launch/
 .vercel
 .claude/
+.env*.local
+node_modules/
