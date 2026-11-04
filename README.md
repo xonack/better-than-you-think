@@ -3,6 +3,8 @@
 A two-minute guess-then-reveal quiz on five sourced measures of human progress.
 Each answer shows the data, the source, and what is still unsolved.
 
+**Take it: https://better-than-you-think.vercel.app**
+
 - `site/index.html`: standalone page, no build step, no tracking. Deploy to any static host.
 - `progress-quiz.html`: the same page as an artifact source.
 
