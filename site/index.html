@@ -87,6 +87,9 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 9vw
 .btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
 .btn:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
 footer { font-size: 13px; color: var(--soft); }
+.langs { font-family: var(--f-mono); font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 14px; }
+.langs a { color: var(--soft); text-decoration: none; }
+.langs a[aria-current] { color: var(--ink); font-weight: 600; }
 .embed header, .embed footer { display: none; }
 .embed .wrap { padding-block: 12px 16px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -96,6 +99,7 @@ footer { font-size: 13px; color: var(--soft); }
 
 <div class="wrap">
   <header>
+    <nav class="langs" aria-label="Language"><!--LANGS--><a href="/" hreflang="en" aria-current="page">English</a><a href="/es/" hreflang="es">Español</a><!--/LANGS--></nav>
     <div class="kicker">Five questions &middot; about two minutes</div>
     <h1>The world is better than you think.</h1>
     <p class="lede">In Gapminder surveys across 14 countries, <b>only about 9% of people knew</b> that extreme poverty had almost halved in 20 years. Random guessing gets 33%. Make your guess on each question, then see the data.</p>
@@ -153,6 +157,7 @@ const params = new URLSearchParams(location.search);
 const REF = (params.get("ref") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 40) || "direct";
 if (params.get("embed") === "1") document.documentElement.classList.add("embed");
 const OUTLOOK = ["Getting better", "Neither better nor worse", "Getting worse"];
+const OUTLOOK_LABEL = ["Getting better", "Neither better nor worse", "Getting worse"];
 let ARM = null, outlook = null, sent = false;
 try { ARM = sessionStorage.getItem("btyt-arm"); } catch (e) {}
 if (ARM !== "pre" && ARM !== "post") {
@@ -169,7 +174,7 @@ function outlookCard() {
   opts.className = "opts";
   OUTLOOK.forEach((o, j) => {
     const b = document.createElement("button");
-    b.type = "button"; b.id = `outlook${j}`; b.textContent = o;
+    b.type = "button"; b.id = `outlook${j}`; b.textContent = OUTLOOK_LABEL[j];
     if (outlook !== null) { b.disabled = true; if (o === outlook) b.classList.add("right"); }
     b.addEventListener("click", () => { outlook = o; render(); });
     opts.appendChild(b);
