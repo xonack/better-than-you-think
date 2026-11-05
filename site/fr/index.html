@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Cinq questions sur le progrès humain. Devinez d’abord, puis voyez les données. La plupart des gens font moins bien que le hasard.">
+<meta property="og:image" content="https://better-than-you-think.vercel.app/og.png">
+<meta property="og:url" content="https://better-than-you-think.vercel.app/fr/">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Le monde va mieux que vous ne le pensez">
+<meta property="og:description" content="Cinq questions sourcées. La plupart des gens font moins bien que le hasard.">
+<style>body{margin:0}</style>
+<title>Mieux que vous ne le pensez</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: single column of five guess-then-reveal cards, a score panel, a share box. */
+:root {
+  --ground: #f5f8f7;
+  --card: #ffffff;
+  --ink: #0f1f24;
+  --soft: #55666b;
+  --line: #d3dedb;
+  --rise: #0a7a58;
+  --rise-wash: #dcf1e9;
+  --miss: #b4441f;
+  --miss-wash: #f8e2d9;
+  --then: #9aa9ad;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c1517; --card: #132024; --ink: #e5efec; --soft: #9db0ad; --line: #26383c;
+    --rise: #4fd1a1; --rise-wash: #12352b; --miss: #f08a63; --miss-wash: #3a1e14; --then: #5f7376;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0c1517; --card: #132024; --ink: #e5efec; --soft: #9db0ad; --line: #26383c;
+  --rise: #4fd1a1; --rise-wash: #12352b; --miss: #f08a63; --miss-wash: #3a1e14; --then: #5f7376;
+  color-scheme: dark;
+}
+body { background: var(--ground); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.55; }
+.wrap { max-width: 720px; margin: 0 auto; padding-block: 44px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 28px; }
+.kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--rise); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 9vw, 72px); line-height: .98; letter-spacing: -.02em; margin: 6px 0 14px; text-wrap: balance; }
+.lede { color: var(--soft); max-width: 60ch; margin: 0; }
+.lede b { color: var(--ink); }
+
+.q { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: grid; gap: 14px; min-width: 0; }
+.qn { font-family: var(--f-mono); font-size: 12px; color: var(--soft); }
+.q h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.opts { display: grid; gap: 8px; }
+.opts button { font: inherit; text-align: left; color: var(--ink); background: transparent; border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 14px; cursor: pointer; transition: border-color .15s, background .15s; }
+.opts button:hover:not(:disabled) { border-color: var(--rise); }
+.opts button:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
+.opts button:disabled { cursor: default; }
+.opts button.right { border-color: var(--rise); background: var(--rise-wash); font-weight: 700; }
+.opts button.wrong { border-color: var(--miss); background: var(--miss-wash); }
+
+.reveal { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+.verdict { font-weight: 700; }
+.verdict.ok { color: var(--rise); }
+.verdict.no { color: var(--miss); }
+.bars { display: grid; gap: 6px; font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.bar { display: grid; grid-template-columns: 52px 1fr 96px; align-items: center; gap: 10px; }
+.track { height: 14px; background: var(--ground); border-radius: 3px; overflow: hidden; }
+.fill { height: 100%; border-radius: 3px; background: var(--then); }
+.bar.now .fill { background: var(--rise); }
+.bar span:last-child { text-align: right; }
+.still { font-size: 15px; color: var(--soft); }
+.still b { color: var(--ink); }
+.src { font-size: 13px; color: var(--soft); }
+.src a { color: inherit; }
+
+.panel { background: var(--ink); color: var(--ground); border-radius: 10px; padding: 24px; display: grid; gap: 12px; }
+.panel h2 { font-family: var(--f-display); font-weight: 800; font-size: 30px; margin: 0; line-height: 1.1; }
+.panel p { margin: 0; max-width: 60ch; }
+.share { font-family: var(--f-mono); font-size: 13px; background: color-mix(in srgb, var(--ground) 10%, transparent); border: 1px solid color-mix(in srgb, var(--ground) 30%, transparent); border-radius: 6px; padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { font: inherit; font-weight: 700; border-radius: 8px; padding: 10px 16px; cursor: pointer; border: 0; background: var(--rise); color: var(--ground); }
+.btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
+.btn:focus-visible { outline: 3px solid var(--rise); outline-offset: 2px; }
+footer { font-size: 13px; color: var(--soft); }
+.langs { font-family: var(--f-mono); font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 14px; }
+.langs a { color: var(--soft); text-decoration: none; }
+.langs a[aria-current] { color: var(--ink); font-weight: 600; }
+.embed header, .embed footer { display: none; }
+.embed .wrap { padding-block: 12px 16px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <nav class="langs" aria-label="Language"><!--LANGS--><a href="/" hreflang="en">English</a><a href="/de/" hreflang="de">Deutsch</a><a href="/es/" hreflang="es">Español</a><a href="/fr/" hreflang="fr" aria-current="page">Français</a><a href="/hi/" hreflang="hi">हिन्दी</a><a href="/pt/" hreflang="pt">Português</a><a href="/zh/" hreflang="zh">中文</a><!--/LANGS--></nav>
+    <div class="kicker">Cinq questions &middot; environ deux minutes</div>
+    <h1>Le monde va mieux que vous ne le pensez.</h1>
+    <p class="lede">Dans des enquêtes Gapminder menées dans 14 pays, <b>seules 9 % des personnes savaient</b> que l’extrême pauvreté avait presque diminué de moitié en 20 ans. Le hasard obtient 33 %. Faites votre choix à chaque question, puis découvrez les données.</p>
+  </header>
+
+  <div id="quiz" class="wrap" style="padding:0;gap:20px"></div>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <h2 id="scoreH">Répondez aux cinq questions pour voir votre score.</h2>
+    <p id="scoreP">Chaque chiffre de cette page vient d’une source publique : Our World in Data, l’ONU, la Banque mondiale et l’IRENA. Chaque réponse renvoie à sa source.</p>
+    <div class="share" id="shareText" hidden></div>
+    <div class="row">
+      <button class="btn" id="copyBtn" type="button" hidden>Copier pour partager</button>
+      <button class="btn ghost" id="showAll" type="button">Voir toutes les réponses</button>
+    </div>
+  </section>
+
+  <footer>Le progrès est réel, et il n’est pas terminé. Chaque réponse indique aussi ce qui reste à résoudre. Un optimisme qui ignore ces faits n’est pas exact non plus.</footer>
+</div>
+
+<script>
+const Q = [
+  { q: "Au cours des 25 dernières années, la part des personnes vivant avec moins de 3 dollars par jour a…",
+    opts: ["Presque doublé", "Peu changé", "Baissé de plus des deux tiers"], a: 2,
+    bars: [["2000", 36, "36%"], ["2024", 10, "10%"]], max: 40,
+    still: "<b>Environ 847 millions de personnes</b> vivent encore avec moins de 3 dollars par jour.",
+    src: ["Our World in Data, World Bank PIP", "https://ourworldindata.org/tracking-how-many-people-live-on-less-than-3-10-or-30-a-day"] },
+  { q: "Depuis 1990, la part des enfants qui meurent avant 5 ans a…",
+    opts: ["Baissé d’environ 60 %", "Baissé d’environ 10 %", "Augmenté"], a: 0,
+    bars: [["1990", 93, "93 / 1,000"], ["2023", 37, "37 / 1,000"]], max: 100,
+    still: "<b>4,8 millions d’enfants</b> sont encore morts avant 5 ans en 2023, et le progrès a ralenti de 42 % depuis 2015.",
+    src: ["UN IGME, Levels and Trends in Child Mortality 2024", "https://data.unicef.org/resources/levels-and-trends-in-child-mortality-2024/"] },
+  { q: "L’espérance de vie moyenne dans le monde aujourd’hui est la plus proche de…",
+    opts: ["50 ans", "60 ans", "73 ans"], a: 2,
+    bars: [["1950", 46.5, "46,5 ans"], ["2023", 73, "73 ans"]], max: 80,
+    still: "<b>L’écart entre pays</b> dépasse encore 20 ans.",
+    src: ["Our World in Data, UN World Population Prospects 2024", "https://ourworldindata.org/grapher/life-expectancy"] },
+  { q: "Quelle part des adultes dans le monde sait lire et écrire ?",
+    opts: ["Environ 45 %", "Environ 65 %", "Environ 87 %"], a: 2,
+    bars: [["1820", 12, "12%"], ["Aujourd’hui", 87, "87%"]], max: 100,
+    still: "<b>Dans certains pays d’Afrique subsaharienne,</b> moins d’un adulte sur trois sait lire et écrire.",
+    src: ["Our World in Data, Literacy", "https://ourworldindata.org/literacy"] },
+  { q: "Depuis 2010, le coût de l’électricité des nouvelles grandes centrales solaires a…",
+    opts: ["Augmenté d’environ 20 %", "Baissé d’environ 30 %", "Baissé d’environ 90 %"], a: 2,
+    bars: [["2010", 41.7, "41.7 ¢/kWh"], ["2024", 4.3, "4.3 ¢/kWh"]], max: 45,
+    still: "<b>L’électricité bon marché n’est pas encore propre partout.</b> Les réseaux, le stockage et le financement limitent encore le rythme de construction.",
+    src: ["IRENA, Renewable Power Generation Costs in 2024", "https://www.irena.org/Publications"] }
+];
+const answers = new Array(Q.length).fill(null);
+const quiz = document.getElementById("quiz");
+
+// Measurement: each visitor is randomly asked the outlook question either before (control)
+// or after (treatment) the quiz. The difference between arms is the quiz's effect.
+const params = new URLSearchParams(location.search);
+const REF = (params.get("ref") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 40) || "direct";
+if (params.get("embed") === "1") document.documentElement.classList.add("embed");
+const OUTLOOK = ["Getting better", "Neither better nor worse", "Getting worse"];
+const OUTLOOK_LABEL = ["Il va mieux", "Ni mieux ni pire", "Il va plus mal"];
+let ARM = null, outlook = null, sent = false;
+try { ARM = sessionStorage.getItem("btyt-arm"); } catch (e) {}
+if (ARM !== "pre" && ARM !== "post") {
+  ARM = Math.random() < 0.5 ? "pre" : "post";
+  try { sessionStorage.setItem("btyt-arm", ARM); } catch (e) {}
+}
+
+function outlookCard() {
+  const el = document.createElement("article");
+  el.className = "q";
+  el.innerHTML = `<div class="qn">${ARM === "pre" ? "Avant de commencer" : "Une dernière question"}</div>
+    <h2>Tout bien considéré, pensez-vous que le monde va mieux ou plus mal ?</h2>`;
+  const opts = document.createElement("div");
+  opts.className = "opts";
+  OUTLOOK.forEach((o, j) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.id = `outlook${j}`; b.textContent = OUTLOOK_LABEL[j];
+    if (outlook !== null) { b.disabled = true; if (o === outlook) b.classList.add("right"); }
+    b.addEventListener("click", () => { outlook = o; render(); });
+    opts.appendChild(b);
+  });
+  el.appendChild(opts);
+  return el;
+}
+
+function send(n) {
+  if (sent || outlook === null) return;
+  sent = true;
+  fetch("/api/r", {
+    method: "POST", headers: { "content-type": "application/json" }, keepalive: true,
+    body: JSON.stringify({ arm: ARM, outlook, score: n, ref: REF, lang: document.documentElement.lang || "en" }),
+  }).catch(() => {});
+}
+
+function render() {
+  quiz.innerHTML = "";
+  const revealAll = answers.some(a => a === -1);
+  if (!revealAll && ARM === "pre") {
+    quiz.appendChild(outlookCard());
+    if (outlook === null) { score(); return; }
+  }
+  Q.forEach((item, i) => {
+    const el = document.createElement("article");
+    el.className = "q";
+    const picked = answers[i];
+    const done = picked !== null;
+    el.innerHTML = `<div class="qn">Question ${i + 1} sur ${Q.length}</div><h2>${item.q}</h2>`;
+    const opts = document.createElement("div");
+    opts.className = "opts";
+    item.opts.forEach((o, j) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.id = `q${i}o${j}`; b.textContent = o;
+      if (done) {
+        b.disabled = true;
+        if (j === item.a) b.classList.add("right");
+        else if (j === picked) b.classList.add("wrong");
+      }
+      b.addEventListener("click", () => { answers[i] = j; render(); });
+      opts.appendChild(b);
+    });
+    el.appendChild(opts);
+    if (done) {
+      const r = document.createElement("div");
+      r.className = "reveal";
+      const ok = picked === item.a, skipped = picked === -1;
+      r.innerHTML =
+        (skipped ? "" : `<div class="verdict ${ok ? "ok" : "no"}">${ok ? "Correct." : "La plupart des gens se trompent ici."} La réponse : ${item.opts[item.a].toLowerCase()}.</div>`) +
+        `<div class="bars">${item.bars.map((b, k) =>
+          `<div class="bar ${k === 1 ? "now" : ""}"><span>${b[0]}</span><div class="track"><div class="fill" style="width:${(b[1] / item.max * 100).toFixed(1)}%"></div></div><span>${b[2]}</span></div>`).join("")}</div>` +
+        `<div class="still">Encore à résoudre : ${item.still}</div>` +
+        `<div class="src">Source : <a href="${item.src[1]}" target="_blank" rel="noopener">${item.src[0]}</a></div>`;
+      el.appendChild(r);
+    }
+    quiz.appendChild(el);
+  });
+  if (!revealAll && ARM === "post" && answers.every(a => a !== null)) quiz.appendChild(outlookCard());
+  score();
+}
+
+function score() {
+  const real = answers.filter(a => a !== null && a !== -1);
+  const allDone = answers.every(a => a !== null);
+  if (!allDone || real.length < Q.length) return;
+  if (outlook === null) return;
+  const n = answers.filter((a, i) => a === Q[i].a).length;
+  send(n);
+  document.getElementById("scoreH").textContent = `Vous avez ${n} sur ${Q.length}.`;
+  document.getElementById("scoreP").textContent = n >= 4
+    ? "Vous voyez le monde plus justement que la plupart des gens. Transmettez le quiz à quelqu’un qui ne le voit pas ainsi."
+    : "Le hasard donnerait environ 1,7 bonne réponse. La plupart des gens obtiennent peu, car l’actualité rapporte des événements, et un progrès lent n’est pas un événement.";
+  const t = document.getElementById("shareText");
+  t.textContent = `J’ai eu ${n}/5 à "Mieux que vous ne le pensez". Extrême pauvreté : de 36 % à 10 % depuis 2000. Mortalité infantile : -60 % depuis 1990. Solaire : 90 % moins cher depuis 2010. Faites le quiz de 2 minutes :`;
+  t.hidden = false;
+  document.getElementById("copyBtn").hidden = false;
+}
+
+document.getElementById("showAll").addEventListener("click", () => {
+  for (let i = 0; i < Q.length; i++) if (answers[i] === null) answers[i] = -1;
+  render();
+});
+document.getElementById("copyBtn").addEventListener("click", (e) => {
+  const t = document.getElementById("shareText");
+  const btn = e.currentTarget;
+  navigator.clipboard.writeText(t.textContent + " https://better-than-you-think.vercel.app/fr/?ref=share-fr").then(
+    () => { btn.textContent = "Copié"; },
+    () => { const s = getSelection(), r = document.createRange(); r.selectNodeContents(t); s.removeAllRanges(); s.addRange(r); btn.textContent = "Texte sélectionné, appuyez sur copier"; }
+  );
+});
+render();
+</script>
+</body>
+</html>
