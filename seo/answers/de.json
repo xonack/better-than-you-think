@@ -1,0 +1,112 @@
+{
+  "ui": {
+    "title_suffix": "Die Daten",
+    "still": "Noch ungelöst:",
+    "cta": "Teste dich: das 2-Minuten-Quiz",
+    "sources": "Quellen",
+    "more": "Weitere Antworten"
+  },
+  "pages": {
+    "is-the-world-getting-worse": {
+      "q": "Wird die Welt schlechter?",
+      "a": "Bei den langfristigen Maßen für menschliches Wohlergehen: nein. Armut, Kindersterblichkeit, Lebenserwartung, Alphabetisierung und die Kosten sauberer Energie verbessern sich seit Jahrzehnten. Der Fortschritt ist nicht abgeschlossen, und ein Teil davon hat sich verlangsamt.",
+      "body": [
+        "Nachrichten berichten über Ereignisse, und langsame Verbesserung ist kein Ereignis. Das ist ein Grund, warum die meisten Menschen Fragen zu globalen Trends schlechter beantworten als der Zufall.",
+        "Jede Antwort unten nennt die Daten, ihre Quelle und was noch ungelöst ist."
+      ],
+      "still": "Der Rückgang der Kindersterblichkeit hat sich seit 2015 verlangsamt, und Hunderte Millionen Menschen leben noch in extremer Armut."
+    },
+    "is-extreme-poverty-increasing": {
+      "q": "Nimmt extreme Armut zu?",
+      "a": "Nein. Der Anteil der Menschen in extremer Armut (weniger als 3 Dollar am Tag) sank von 36 % im Jahr 2000 auf 10 % im Jahr 2024.",
+      "body": [
+        "Die Weltbank misst extreme Armut an einer Grenze von 3 Dollar am Tag in Preisen von 2021. Nach dieser Grenze war im Jahr 2000 mehr als ein Drittel der Menschheit extrem arm. 2024 war es einer von zehn Menschen.",
+        "Die meisten wissen das nicht. In Gapminder-Umfragen in 14 Ländern wussten nur etwa 9 %, dass sich extreme Armut in 20 Jahren fast halbiert hat. Zufälliges Raten trifft 33 %."
+      ],
+      "rows": [
+        [
+          "2000",
+          "36 %"
+        ],
+        [
+          "2024",
+          "10 %"
+        ]
+      ],
+      "still": "Rund 847 Millionen Menschen leben noch immer mit weniger als 3 Dollar am Tag."
+    },
+    "is-child-mortality-going-down": {
+      "q": "Sinkt die Kindersterblichkeit?",
+      "a": "Ja. Todesfälle vor dem 5. Geburtstag sanken von 93 pro 1.000 Geburten im Jahr 1990 auf 37 pro 1.000 im Jahr 2023, ein Rückgang um etwa 60 %.",
+      "body": [
+        "1990 starben etwa 12,5 Millionen Kinder vor ihrem fünften Geburtstag. 2023 waren es etwa 4,8 Millionen.",
+        "Fast die Hälfte der verbleibenden Todesfälle geschieht in den ersten 28 Lebenstagen. Bei der Versorgung Neugeborener lassen sich heute die meisten Leben retten."
+      ],
+      "rows": [
+        [
+          "1990",
+          "93 pro 1.000"
+        ],
+        [
+          "2023",
+          "37 pro 1.000"
+        ]
+      ],
+      "still": "4,8 Millionen Kinder starben 2023 noch vor ihrem 5. Geburtstag, und seit 2015 hat sich der Rückgang im Vergleich zu 2000 bis 2015 um 42 % verlangsamt."
+    },
+    "is-life-expectancy-increasing": {
+      "q": "Steigt die Lebenserwartung?",
+      "a": "Ja. Die durchschnittliche Lebenserwartung weltweit stieg von etwa 46,5 Jahren im Jahr 1950 auf 73 Jahre im Jahr 2023.",
+      "body": [
+        "Um 1900 lag der weltweite Durchschnitt bei etwa 32 Jahren. Seitdem hat er sich mehr als verdoppelt. Ein großer Teil des Gewinns kommt daher, dass weniger Kinder früh sterben."
+      ],
+      "rows": [
+        [
+          "1950",
+          "46,5 Jahre"
+        ],
+        [
+          "2023",
+          "73 Jahre"
+        ]
+      ],
+      "still": "Der Abstand zwischen den Ländern mit dem längsten und dem kürzesten Leben beträgt noch immer mehr als 20 Jahre."
+    },
+    "is-literacy-increasing": {
+      "q": "Steigt die Alphabetisierung weltweit?",
+      "a": "Ja. 1820 konnten etwa 12 % der Erwachsenen lesen und schreiben. Heute sind es etwa 87 %.",
+      "body": [
+        "Der größte Teil des Anstiegs kam nach 1950, als sich die Grundschule verbreitete. Die weltweite Alphabetisierung lag 1960 bei etwa 42 % und 1983 bei etwa 70 %."
+      ],
+      "rows": [
+        [
+          "1820",
+          "12 %"
+        ],
+        [
+          "Heute",
+          "87 %"
+        ]
+      ],
+      "still": "In manchen Ländern Afrikas südlich der Sahara kann weniger als 1 von 3 Erwachsenen lesen und schreiben."
+    },
+    "is-solar-power-getting-cheaper": {
+      "q": "Wird Solarstrom billiger?",
+      "a": "Ja. Strom aus neuen großen Solarkraftwerken fiel von 0,417 Dollar pro kWh im Jahr 2010 auf 0,043 Dollar pro kWh im Jahr 2024, etwa 90 % billiger.",
+      "body": [
+        "Die Gesamtkosten für den Bau eines großen Solarkraftwerks fielen von 5.283 Dollar pro kW im Jahr 2010 auf 691 Dollar pro kW im Jahr 2024. 2024 war neuer Solarstrom im Schnitt billiger als neuer fossiler Strom."
+      ],
+      "rows": [
+        [
+          "2010",
+          "0,417 $ / kWh"
+        ],
+        [
+          "2024",
+          "0,043 $ / kWh"
+        ]
+      ],
+      "still": "Billiger Strom ist noch nicht überall sauberer Strom. Netze, Speicher und Finanzierung bremsen noch den Ausbau."
+    }
+  }
+}
