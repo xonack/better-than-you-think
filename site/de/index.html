@@ -7,6 +7,15 @@
 <meta property="og:image" content="https://better-than-you-think.vercel.app/og.png">
 <meta property="og:url" content="https://better-than-you-think.vercel.app/de/">
 <meta name="twitter:card" content="summary_large_image">
+<!--ALT--><link rel="canonical" href="https://better-than-you-think.vercel.app/de/">
+<link rel="alternate" hreflang="en" href="https://better-than-you-think.vercel.app/">
+<link rel="alternate" hreflang="de" href="https://better-than-you-think.vercel.app/de/">
+<link rel="alternate" hreflang="es" href="https://better-than-you-think.vercel.app/es/">
+<link rel="alternate" hreflang="fr" href="https://better-than-you-think.vercel.app/fr/">
+<link rel="alternate" hreflang="hi" href="https://better-than-you-think.vercel.app/hi/">
+<link rel="alternate" hreflang="pt" href="https://better-than-you-think.vercel.app/pt/">
+<link rel="alternate" hreflang="zh" href="https://better-than-you-think.vercel.app/zh/">
+<link rel="alternate" hreflang="x-default" href="https://better-than-you-think.vercel.app/"><!--/ALT-->
 <meta property="og:title" content="Die Welt ist besser als du denkst">
 <meta property="og:description" content="Fünf Fragen mit Quellen. Die meisten schneiden schlechter ab als der Zufall.">
 <style>body{margin:0}</style>
@@ -90,7 +99,9 @@ footer { font-size: 13px; color: var(--soft); }
 .langs { font-family: var(--f-mono); font-size: 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 14px; }
 .langs a { color: var(--soft); text-decoration: none; }
 .langs a[aria-current] { color: var(--ink); font-weight: 600; }
-.embed header, .embed footer { display: none; }
+.answers { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; }
+.answers a { color: var(--soft); }
+.embed header, .embed footer, .embed .answers { display: none; }
 .embed .wrap { padding-block: 12px 16px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -117,6 +128,7 @@ footer { font-size: 13px; color: var(--soft); }
     </div>
   </section>
 
+  <nav class="answers" aria-label="Answers"><!--ANSWERS--><a href="/is-the-world-getting-worse/">Is the world getting worse?</a><a href="/is-extreme-poverty-increasing/">Is extreme poverty increasing?</a><a href="/is-child-mortality-going-down/">Is child mortality going down?</a><a href="/is-life-expectancy-increasing/">Is life expectancy increasing?</a><a href="/is-literacy-increasing/">Is literacy increasing worldwide?</a><a href="/is-solar-power-getting-cheaper/">Is solar power getting cheaper?</a><!--/ANSWERS--></nav>
   <footer>Fortschritt ist real, und er ist nicht abgeschlossen. Jede Antwort nennt auch, was noch ungelöst ist. Optimismus, der diese Fakten ignoriert, ist ebenfalls nicht genau.</footer>
 </div>
 

@@ -22,7 +22,15 @@ def nav(cur, langs):
     return "<!--LANGS-->" + "".join(links) + "<!--/LANGS-->"
 
 def set_nav(s, cur, langs):
-    return re.sub(r"<!--LANGS-->.*?<!--/LANGS-->", lambda m: nav(cur, langs), s, flags=re.S)
+    s = re.sub(r"<!--LANGS-->.*?<!--/LANGS-->", lambda m: nav(cur, langs), s, flags=re.S)
+    return re.sub(r"<!--ALT-->.*?<!--/ALT-->", lambda m: alts(cur, langs), s, flags=re.S)
+
+def alts(cur, langs):
+    url = lambda l: f"{BASE}/" if l == "en" else f"{BASE}/{l}/"
+    out = [f'<link rel="canonical" href="{url(cur)}">']
+    out += [f'<link rel="alternate" hreflang="{l}" href="{url(l)}">' for l in ["en"] + langs]
+    out.append(f'<link rel="alternate" hreflang="x-default" href="{BASE}/">')
+    return "<!--ALT-->" + "\n".join(out) + "<!--/ALT-->"
 
 def main():
     langs = sorted(p.stem for p in (ROOT / "i18n").glob("*.json"))
