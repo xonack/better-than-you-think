@@ -1,0 +1,112 @@
+{
+  "ui": {
+    "title_suffix": "Les données",
+    "still": "Encore à résoudre :",
+    "cta": "Testez-vous : le quiz de 2 minutes",
+    "sources": "Sources",
+    "more": "Autres réponses"
+  },
+  "pages": {
+    "is-the-world-getting-worse": {
+      "q": "Le monde va-t-il plus mal ?",
+      "a": "Selon les mesures du bien-être humain sur le long terme, non. La pauvreté, la mortalité infantile, l’espérance de vie, l’alphabétisation et le coût de l’énergie propre s’améliorent depuis des décennies. Le progrès n’est pas terminé, et une partie a ralenti.",
+      "body": [
+        "L’actualité rapporte des événements, et une amélioration lente n’est pas un événement. C’est une des raisons pour lesquelles la plupart des gens répondent aux questions sur les tendances mondiales moins bien que le hasard.",
+        "Chaque réponse ci-dessous donne les données, leur source et ce qui reste à résoudre."
+      ],
+      "still": "Les progrès contre la mortalité infantile ralentissent depuis 2015, et des centaines de millions de personnes restent dans l’extrême pauvreté."
+    },
+    "is-extreme-poverty-increasing": {
+      "q": "L’extrême pauvreté augmente-t-elle ?",
+      "a": "Non. La part des personnes en extrême pauvreté (moins de 3 dollars par jour) est passée de 36 % en 2000 à 10 % en 2024.",
+      "body": [
+        "La Banque mondiale mesure l’extrême pauvreté avec un seuil de 3 dollars par jour aux prix de 2021. Selon ce seuil, plus d’un tiers de l’humanité était extrêmement pauvre en 2000. En 2024, c’était une personne sur dix.",
+        "La plupart des gens l’ignorent. Dans des enquêtes Gapminder menées dans 14 pays, seules 9 % des personnes savaient que l’extrême pauvreté avait presque diminué de moitié en 20 ans. Le hasard obtient 33 %."
+      ],
+      "rows": [
+        [
+          "2000",
+          "36 %"
+        ],
+        [
+          "2024",
+          "10 %"
+        ]
+      ],
+      "still": "Environ 847 millions de personnes vivent encore avec moins de 3 dollars par jour."
+    },
+    "is-child-mortality-going-down": {
+      "q": "La mortalité infantile baisse-t-elle ?",
+      "a": "Oui. Les décès avant 5 ans sont passés de 93 pour 1 000 naissances en 1990 à 37 pour 1 000 en 2023, soit une baisse d’environ 60 %.",
+      "body": [
+        "En 1990, environ 12,5 millions d’enfants sont morts avant leur cinquième anniversaire. En 2023, environ 4,8 millions.",
+        "Près de la moitié des décès restants surviennent au cours des 28 premiers jours de vie : c’est désormais dans les soins aux nouveau-nés que l’on peut sauver le plus de vies."
+      ],
+      "rows": [
+        [
+          "1990",
+          "93 pour 1 000"
+        ],
+        [
+          "2023",
+          "37 pour 1 000"
+        ]
+      ],
+      "still": "4,8 millions d’enfants sont encore morts avant 5 ans en 2023, et depuis 2015 le rythme de baisse a ralenti de 42 % par rapport à 2000-2015."
+    },
+    "is-life-expectancy-increasing": {
+      "q": "L’espérance de vie augmente-t-elle ?",
+      "a": "Oui. L’espérance de vie moyenne dans le monde est passée d’environ 46,5 ans en 1950 à 73 ans en 2023.",
+      "body": [
+        "En 1900, la moyenne mondiale était d’environ 32 ans. Elle a plus que doublé depuis. Une grande partie du gain vient de la baisse des décès d’enfants en bas âge."
+      ],
+      "rows": [
+        [
+          "1950",
+          "46,5 ans"
+        ],
+        [
+          "2023",
+          "73 ans"
+        ]
+      ],
+      "still": "L’écart entre les pays où l’on vit le plus longtemps et ceux où l’on vit le moins longtemps dépasse encore 20 ans."
+    },
+    "is-literacy-increasing": {
+      "q": "L’alphabétisation progresse-t-elle dans le monde ?",
+      "a": "Oui. En 1820, environ 12 % des adultes savaient lire et écrire. Aujourd’hui, environ 87 %.",
+      "body": [
+        "L’essentiel de la hausse est venu après 1950, avec la diffusion de l’école primaire. L’alphabétisation mondiale était d’environ 42 % en 1960 et d’environ 70 % en 1983."
+      ],
+      "rows": [
+        [
+          "1820",
+          "12 %"
+        ],
+        [
+          "Aujourd’hui",
+          "87 %"
+        ]
+      ],
+      "still": "Dans certains pays d’Afrique subsaharienne, moins d’un adulte sur trois sait lire et écrire."
+    },
+    "is-solar-power-getting-cheaper": {
+      "q": "L’énergie solaire devient-elle moins chère ?",
+      "a": "Oui. L’électricité des nouvelles grandes centrales solaires est passée de 0,417 dollar par kWh en 2010 à 0,043 dollar par kWh en 2024, soit environ 90 % moins cher.",
+      "body": [
+        "Le coût total d’installation d’une grande centrale solaire est passé de 5 283 dollars par kW en 2010 à 691 dollars par kW en 2024. En 2024, le nouveau solaire était en moyenne moins cher que les nouvelles centrales fossiles."
+      ],
+      "rows": [
+        [
+          "2010",
+          "0,417 $ / kWh"
+        ],
+        [
+          "2024",
+          "0,043 $ / kWh"
+        ]
+      ],
+      "still": "L’électricité bon marché n’est pas encore propre partout. Les réseaux, le stockage et le financement limitent encore le rythme de construction."
+    }
+  }
+}
