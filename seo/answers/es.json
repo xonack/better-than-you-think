@@ -1,0 +1,112 @@
+{
+  "ui": {
+    "title_suffix": "Los datos",
+    "still": "Sin resolver:",
+    "cta": "Ponte a prueba: el test de 2 minutos",
+    "sources": "Fuentes",
+    "more": "Más respuestas"
+  },
+  "pages": {
+    "is-the-world-getting-worse": {
+      "q": "¿Está empeorando el mundo?",
+      "a": "En las medidas de bienestar humano a largo plazo, no. La pobreza, la mortalidad infantil, la esperanza de vida, la alfabetización y el coste de la energía limpia llevan décadas mejorando. El progreso no ha terminado, y parte de él se ha frenado.",
+      "body": [
+        "Las noticias informan de sucesos, y una mejora lenta no es un suceso. Esa es una razón por la que la mayoría responde a las preguntas sobre tendencias globales peor que eligiendo al azar.",
+        "Cada respuesta de abajo da los datos, su fuente y lo que sigue sin resolverse."
+      ],
+      "still": "El progreso en mortalidad infantil se ha frenado desde 2015, y cientos de millones de personas siguen en pobreza extrema."
+    },
+    "is-extreme-poverty-increasing": {
+      "q": "¿Está aumentando la pobreza extrema?",
+      "a": "No. La proporción de personas en pobreza extrema (menos de 3 dólares al día) bajó del 36% en 2000 al 10% en 2024.",
+      "body": [
+        "El Banco Mundial mide la pobreza extrema con una línea de 3 dólares al día a precios de 2021. Con esa línea, más de un tercio de la humanidad era extremadamente pobre en 2000. En 2024 lo era una de cada diez personas.",
+        "La mayoría no lo sabe. En encuestas de Gapminder en 14 países, solo un 9% sabía que la pobreza extrema casi se había reducido a la mitad en 20 años. Elegir al azar acierta el 33%."
+      ],
+      "rows": [
+        [
+          "2000",
+          "36%"
+        ],
+        [
+          "2024",
+          "10%"
+        ]
+      ],
+      "still": "Unos 847 millones de personas todavía viven con menos de 3 dólares al día."
+    },
+    "is-child-mortality-going-down": {
+      "q": "¿Está bajando la mortalidad infantil?",
+      "a": "Sí. Las muertes antes de los 5 años bajaron de 93 por cada 1.000 nacimientos en 1990 a 37 por cada 1.000 en 2023, una caída de alrededor del 60%.",
+      "body": [
+        "En 1990 murieron unos 12,5 millones de niños antes de cumplir 5 años. En 2023 fueron unos 4,8 millones.",
+        "Casi la mitad de las muertes que quedan ocurren en los primeros 28 días de vida, así que la atención al recién nacido es hoy donde más vidas se pueden salvar."
+      ],
+      "rows": [
+        [
+          "1990",
+          "93 por 1.000"
+        ],
+        [
+          "2023",
+          "37 por 1.000"
+        ]
+      ],
+      "still": "4,8 millones de niños murieron antes de los 5 años en 2023, y desde 2015 el ritmo de descenso se ha frenado un 42% frente a 2000-2015."
+    },
+    "is-life-expectancy-increasing": {
+      "q": "¿Está aumentando la esperanza de vida?",
+      "a": "Sí. La esperanza de vida media del mundo subió de unos 46,5 años en 1950 a 73 años en 2023.",
+      "body": [
+        "En 1900 la media mundial era de unos 32 años. Desde entonces se ha más que duplicado. Gran parte de la mejora viene de que mueren menos niños pequeños."
+      ],
+      "rows": [
+        [
+          "1950",
+          "46,5 años"
+        ],
+        [
+          "2023",
+          "73 años"
+        ]
+      ],
+      "still": "La diferencia entre los países con vidas más largas y más cortas sigue siendo de más de 20 años."
+    },
+    "is-literacy-increasing": {
+      "q": "¿Está aumentando la alfabetización en el mundo?",
+      "a": "Sí. En 1820 sabía leer y escribir un 12% de los adultos. Hoy lo sabe un 87%.",
+      "body": [
+        "La mayor parte del aumento llegó después de 1950, cuando se extendió la escuela básica. La alfabetización mundial era de un 42% en 1960 y de un 70% en 1983."
+      ],
+      "rows": [
+        [
+          "1820",
+          "12%"
+        ],
+        [
+          "Hoy",
+          "87%"
+        ]
+      ],
+      "still": "En algunos países de África subsahariana, menos de 1 de cada 3 adultos sabe leer y escribir."
+    },
+    "is-solar-power-getting-cheaper": {
+      "q": "¿Está bajando el precio de la energía solar?",
+      "a": "Sí. La electricidad de las nuevas grandes plantas solares bajó de 0,417 dólares por kWh en 2010 a 0,043 dólares por kWh en 2024, un 90% más barata.",
+      "body": [
+        "El coste total de instalar una gran planta solar bajó de 5.283 dólares por kW en 2010 a 691 dólares por kW en 2024. En 2024, la nueva energía solar fue de media más barata que la nueva energía fósil."
+      ],
+      "rows": [
+        [
+          "2010",
+          "0,417 $ / kWh"
+        ],
+        [
+          "2024",
+          "0,043 $ / kWh"
+        ]
+      ],
+      "still": "La energía barata aún no es energía limpia en todas partes. Las redes, el almacenamiento y la financiación siguen limitando la velocidad de construcción."
+    }
+  }
+}

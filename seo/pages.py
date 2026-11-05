@@ -77,22 +77,47 @@ ul{margin:0;padding-left:20px}.small{font-size:14px;color:var(--soft)}"""
 
 def esc(t): return html.escape(t, quote=True)
 
-def page(p, others):
-    url = f"{BASE}/{p['slug']}/"
+UI_EN = {"title_suffix": "The data", "still": "Still unsolved:", "cta": "Test yourself: the 2-minute quiz",
+         "sources": "Sources", "more": "More answers"}
+
+def localized(lang):
+    """English pages, or pages with fields overridden from seo/answers/<lang>.json."""
+    base = [WORLD] + PAGES
+    if lang == "en":
+        return base, UI_EN
+    tr = json.loads((ROOT / "seo" / "answers" / f"{lang}.json").read_text())
+    out = []
+    for p in base:
+        t = tr["pages"][p["slug"]]
+        q = dict(p); q.update({k: t[k] for k in ("q", "a", "body", "still")})
+        q["rows"] = [tuple(r) for r in t.get("rows", p["rows"])]
+        out.append(q)
+    missing = {p["slug"] for p in base} - set(tr["pages"])
+    if missing: sys.exit(f"{lang}: missing answer pages {missing}")
+    return out, {**UI_EN, **tr["ui"]}
+
+def answer_langs():
+    return ["en"] + sorted(x.stem for x in (ROOT / "seo" / "answers").glob("*.json"))
+
+def page(p, others, lang, ui, alangs):
+    pre = "" if lang == "en" else f"/{lang}"
+    url = f"{BASE}{pre}/{p['slug']}/"
+    alt = "\n".join(f'<link rel="alternate" hreflang="{l}" href="{BASE}{"" if l == "en" else "/" + l}/{p["slug"]}/">' for l in alangs)
     ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{
         "@type": "Question", "name": p["q"],
         "acceptedAnswer": {"@type": "Answer", "text": p["a"] + " " + p["still"]}}]}
     rows = "".join(f"<tr><td>{esc(a)}</td><td>{esc(b)}</td></tr>" for a, b in p["rows"])
     srcs = "".join(f'<li><a href="{SRC[k][1]}" rel="noopener">{esc(SRC[k][0])}</a></li>' for k in p["src"])
-    links = "".join(f'<li><a href="/{o["slug"]}/">{esc(o["q"])}</a></li>' for o in others)
+    links = "".join(f'<li><a href="{pre}/{o["slug"]}/">{esc(o["q"])}</a></li>' for o in others)
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{esc(p['q'])} The data | Better Than You Think</title>
+<title>{esc(p['q'])} {esc(ui['title_suffix'])} | Better Than You Think</title>
 <meta name="description" content="{esc(p['a'])}">
 <link rel="canonical" href="{url}">
+{alt}
 <meta property="og:title" content="{esc(p['q'])}">
 <meta property="og:description" content="{esc(p['a'])}">
 <meta property="og:image" content="{BASE}/og.png">
@@ -104,15 +129,15 @@ def page(p, others):
 </head>
 <body>
 <main class="wrap">
-  <p class="small"><a href="/">Better Than You Think</a></p>
+  <p class="small"><a href="{pre}/">Better Than You Think</a></p>
   <h1>{esc(p['q'])}</h1>
   <p class="answer"><b>{esc(p['a'])}</b></p>
   {"<table>" + rows + "</table>" if rows else ""}
   {"".join(f"<p>{esc(b)}</p>" for b in p['body'])}
-  <p class="still"><b>Still unsolved:</b> {esc(p['still'])}</p>
-  <p><a class="cta" href="/?ref={p['ref']}">Test yourself: the 2-minute quiz</a></p>
-  <section><h2>Sources</h2><ul>{srcs}</ul></section>
-  <section><h2>More answers</h2><ul>{links}</ul></section>
+  <p class="still"><b>{esc(ui['still'])}</b> {esc(p['still'])}</p>
+  <p><a class="cta" href="{pre}/?ref={p['ref']}">{esc(ui['cta'])}</a></p>
+  <section><h2>{esc(ui['sources'])}</h2><ul>{srcs}</ul></section>
+  <section><h2>{esc(ui['more'])}</h2><ul>{links}</ul></section>
 </main>
 </body>
 </html>
@@ -120,24 +145,35 @@ def page(p, others):
 
 def main():
     allp = [WORLD] + PAGES
-    for p in allp:
-        others = [o for o in allp if o is not p]
-        out = SITE / p["slug"] / "index.html"
-        out.parent.mkdir(exist_ok=True)
-        out.write_text(page(p, others))
+    alangs = answer_langs()
+    for lang in alangs:
+        lp, ui = localized(lang)
+        for p in lp:
+            others = [o for o in lp if o is not p]
+            out = SITE / ("" if lang == "en" else lang) / p["slug"] / "index.html"
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(page(p, others, lang, ui, alangs))
     # Homepage answer links (inherited by translations).
     m = (SITE / "index.html").read_text()
     links = "".join(f'<a href="/{p["slug"]}/">{esc(p["q"])}</a>' for p in allp)
     m = re.sub(r"<!--ANSWERS-->.*?<!--/ANSWERS-->", lambda _: "<!--ANSWERS-->" + links + "<!--/ANSWERS-->", m, flags=re.S)
     (SITE / "index.html").write_text(m)
     subprocess.run([sys.executable, str(ROOT / "i18n" / "build.py")], check=True)
+    for lang in alangs[1:]:  # translated quiz pages link to their own answers
+        f = SITE / lang / "index.html"
+        lp, _ = localized(lang)
+        ln = "".join(f'<a href="/{lang}/{p["slug"]}/">{esc(p["q"])}</a>' for p in lp)
+        f.write_text(re.sub(r"<!--ANSWERS-->.*?<!--/ANSWERS-->", lambda _: "<!--ANSWERS-->" + ln + "<!--/ANSWERS-->", f.read_text(), flags=re.S))
     # Sitemap with hreflang alternates for the quiz.
     langs = sorted(x.stem for x in (ROOT / "i18n").glob("*.json"))
     today = datetime.date.today().isoformat()
     qurl = lambda l: f"{BASE}/" if l == "en" else f"{BASE}/{l}/"
     alt = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{qurl(l)}"/>' for l in ["en"] + langs)
     urls = [f"<url><loc>{qurl(l)}</loc><lastmod>{today}</lastmod>{alt}</url>" for l in ["en"] + langs]
-    urls += [f"<url><loc>{BASE}/{p['slug']}/</loc><lastmod>{today}</lastmod></url>" for p in allp]
+    for p in allp:
+        aalt = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{"" if l == "en" else "/" + l}/{p["slug"]}/"/>' for l in alangs)
+        for l in alangs:
+            urls.append(f"<url><loc>{BASE}{'' if l == 'en' else '/' + l}/{p['slug']}/</loc><lastmod>{today}</lastmod>{aalt}</url>")
     urls.append(f"<url><loc>{BASE}/partners.html</loc><lastmod>{today}</lastmod></url>")
     (SITE / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(urls) + "\n</urlset>\n")
     (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: {BASE}/sitemap.xml\n")
